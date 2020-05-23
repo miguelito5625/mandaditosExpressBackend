@@ -1,5 +1,6 @@
 const indexController = {};
 const usuariosController = require('./usuarios');
+const pedidosController = require('./pedidos');
 
 indexController.rootApi = (req, res) =>{
     res.json({
@@ -10,5 +11,6 @@ indexController.rootApi = (req, res) =>{
 
 module.exports = {
     indexController,
-    usuariosController
+    usuariosController,
+    pedidosController
 }
