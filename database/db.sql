@@ -11,11 +11,18 @@ pedido TEXT(1000),
 precio DECIMAL(6,2) NULL,
 id_repartidor int NULL,
 estado VARCHAR(15),
+descripcion_rechazo TEXT(500) NULL,
 onCreated timestamp DEFAULT NOW(),
 onUpdated timestamp DEFAULT NOW() ON UPDATE NOW(),
 CONSTRAINT FK_ClienteMandado FOREIGN KEY (id_cliente) REFERENCES usuario(id),
 CONSTRAINT FK_RepartidorMandado FOREIGN KEY (id_repartidor) REFERENCES usuario(id)
 );
+
+ALTER TABLE pedido
+ADD descripcion_rechazo TEXT(500) NULL AFTER estado;
+
+ALTER TABLE pedido
+DROP COLUMN descripcion_rechazo;
 
 DROP TABLE usuario;
 CREATE TABLE usuario(
@@ -35,7 +42,7 @@ CREATE TABLE usuario(
 DROP VIEW vista_pedidos;
 
 CREATE VIEW vista_pedidos as
-SELECT pedido.id as id_pedido, pedido.id_cliente, pedido.nombre_cliente,
+SELECT pedido.id as id_pedido, pedido.id_repartidor, pedido.id_cliente, pedido.nombre_cliente,
 pedido.telefono as telefono_cliente, pedido.direccion as direccion_cliente,
 pedido.pedido, pedido.precio, pedido.estado as estado_pedido, pedido.onCreated, 
 pedido.onUpdated

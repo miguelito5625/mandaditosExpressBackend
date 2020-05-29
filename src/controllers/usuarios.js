@@ -43,33 +43,12 @@ usuariosController.crearUsuario = async (req, res) => {
         });
     }
 
-
-    // try {
-    //     const query = await pool.query('INSERT INTO usuario SET ?', req.body);
-    //     console.log('Usuario creado exitosamente');
-    //     console.log('id insertado: ', query[0].insertId);
-    //     res.json({
-    //         message: 'Usuario creado exitosamente',
-    //         status: 'ok',
-    //         dbServer: query[0]
-    //     });
-    //     } catch (error) {
-    //     console.log(error);
-
-    //     res.json({
-    //         message: "error al intentar crear el usuario",
-    //         status: "error",
-    //         error
-    //     });
-    // }
-
-
 };
 
 usuariosController.listarClientes = async (req, res) => {
 
     try {
-        const query = await pool.query('SELECT * from usuario');
+        const query = await pool.query("SELECT * FROM usuario WHERE tipoUsuario = 'Cliente'");
         console.log('lista de usuarios clientes listados');
 
         res.json(query[0]);
@@ -105,11 +84,32 @@ usuariosController.detalleCliente = async (req, res) => {
             error
         });
     }
+};
 
+usuariosController.listarRepartidores = async(req, res) => {
 
-}
+    try {
+        const query = await pool.query(
+            {
+                sql: "SELECT id, CONCAT(nombres, ' ', apellidos) as nombre FROM usuario WHERE tipoUsuario = 'Repartidor'"
+            }
+        );
+        console.log('Todos los reepartidores listados');
+           
+        res.json(query[0]);
 
-usuariosController.inicioSesionCliente = async (req, res) => {
+        } catch (error) {
+        console.log(error);
+        
+        res.json({
+            message: "error al listar los repartidores",
+            status: "error",
+            error
+        });
+    }
+};
+
+usuariosController.inicioSesionUsuario = async (req, res) => {
 
     const usuarioLogin = {
         correo: req.body.userEmail,
@@ -161,6 +161,6 @@ usuariosController.inicioSesionCliente = async (req, res) => {
         });
     }
 
-}
+};
 
 module.exports = usuariosController;
