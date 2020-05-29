@@ -58,7 +58,7 @@ pedidosController.listarPedidosPorClienteYEstado = async (req, res) => {
             {
                 sql: 'SET @row_number = 0; ' +
                     'SELECT (@row_number:=@row_number + 1) AS fila_numero, id_cliente, nombre_cliente, ' +
-                    'telefono_cliente, direccion_cliente, id_pedido, pedido, precio, estado_pedido, onCreated, onUpdated ' +
+                    'telefono_cliente, direccion_cliente, id_pedido, pedido, precio, estado_pedido, descripcion_rechazo, onCreated, onUpdated ' +
                     'FROM vista_pedidos where id_cliente = ? AND estado_pedido = ?;',
                 values: [idCliente, estadoPedido]
             }
@@ -88,7 +88,7 @@ pedidosController.listarPedidosPorRepartidorYEstado = async (req, res) => {
             {
                 sql: 'SET @row_number = 0; ' +
                     'SELECT (@row_number:=@row_number + 1) AS fila_numero, id_repartidor, id_cliente, nombre_cliente, ' +
-                    'telefono_cliente, direccion_cliente, id_pedido, pedido, precio, estado_pedido, onCreated, onUpdated ' +
+                    'telefono_cliente, direccion_cliente, id_pedido, pedido, precio, estado_pedido, descripcion_rechazo, onCreated, onUpdated ' +
                     'FROM vista_pedidos where id_repartidor = ? AND estado_pedido = ?;',
                 values: [idRepartidor, estadoPedido]
             }
