@@ -63,7 +63,38 @@ pedidosController.listarPedidosPorClienteYEstado = async (req, res) => {
                 values: [idCliente, estadoPedido]
             }
         );
-        console.log('lista de pedidos listados');
+        console.log('Pedidos listados');
+
+        res.json(query[0][1]);
+
+    } catch (error) {
+        console.log(error);
+
+        res.json({
+            message: "error al listar los pedidos",
+            status: "error",
+            error
+        });
+    }
+};
+
+
+pedidosController.listarPedidosPRAEPorCliente = async (req, res) => {
+
+    const idCliente = req.params.id_cliente;
+
+    try {
+        const query = await pool.query(
+            {
+                sql: 'SET @row_number = 0; ' +
+                    'SELECT (@row_number:=@row_number + 1) AS fila_numero, id_cliente, nombre_cliente, ' +
+                    'telefono_cliente, direccion_cliente, id_pedido, pedido, precio, estado_pedido, descripcion_rechazo, onCreated, onUpdated ' +
+                    'FROM vista_pedidos where id_cliente = ? AND ' +
+                    '(estado_pedido = "pendiente" OR estado_pedido = "revisado" OR estado_pedido = "aceptado" OR estado_pedido = "en camino");',
+                values: [idCliente]
+            }
+        );
+        console.log('Pedidos PRAE listados');
 
         res.json(query[0][1]);
 

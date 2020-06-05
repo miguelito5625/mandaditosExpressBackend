@@ -23,13 +23,13 @@ const routes = require('./routes/index');
 app.use(routes);
 
 
-// app.listen('3000', () =>{
-//     console.log(listaRutas(app));
-//     console.log('Server on port 3000');
-// })
+app.listen('3000', () =>{
+    console.log(listaRutas(app));
+    console.log('Server on port 3000');
+})
 
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
+// var httpServer = http.createServer(app);
+// var httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(3000);
-httpsServer.listen(443);
+// httpServer.listen(3000);
+// httpsServer.listen(443);
