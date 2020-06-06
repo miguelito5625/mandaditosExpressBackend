@@ -91,12 +91,14 @@ usuariosController.listarRepartidores = async(req, res) => {
     try {
         const query = await pool.query(
             {
-                sql: "SELECT id, CONCAT(nombres, ' ', apellidos) as nombre FROM usuario WHERE tipoUsuario = 'Repartidor'"
+                sql: "SET @row_number = 0; " +
+                "SELECT (@row_number:=@row_number + 1) AS fila_numero, id, CONCAT(nombres, ' ', " +
+                "apellidos) as nombre, nombres, apellidos, direccion, telefono, correo FROM usuario WHERE tipoUsuario = 'Repartidor'"
             }
         );
         console.log('Todos los reepartidores listados');
            
-        res.json(query[0]);
+        res.json(query[0][1]);
 
         } catch (error) {
         console.log(error);
