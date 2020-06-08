@@ -109,6 +109,45 @@ pedidosController.listarPedidosPRAEPorCliente = async (req, res) => {
     }
 };
 
+pedidosController.filtrarPedidosEntregadosPorRepartidorYFechas = async (req, res) => {
+
+    const idRepartidor = req.params.id_repartidor;
+    const fechaDesde = req.params.fechaDesde;
+    const fechaHasta = req.params.fechaHasta;
+    console.log(req.params);
+    
+
+    try {
+        const query = await pool.query(
+            {
+                sql: "SET @row_number = 0; " +
+                    "SELECT (@row_number:=@row_number + 1) AS fila_numero, id_cliente, nombre_cliente, " +
+                    "telefono_cliente, direccion_cliente, id_pedido, pedido, precio, estado_pedido, onCreated, onUpdated " +
+                    "FROM vista_pedidos where DATE(onCreated) BETWEEN ? AND ? AND estado_pedido = 'entregado' AND id_repartidor = ?;",
+                values: [fechaDesde, fechaHasta, idRepartidor]
+            }
+        );
+        console.log('Pedidos listados');
+
+        res.json(query[0][1]);
+
+    } catch (error) {
+        console.log(error);
+
+        res.json({
+            message: "error al listar los pedidos",
+            status: "error",
+            error
+        });
+    }
+    
+
+    // res.json({
+    //     message:'test'
+    // });
+
+};
+
 pedidosController.listarPedidosPorRepartidorYEstado = async (req, res) => {
 
     const idRepartidor = req.params.id_repartidor;

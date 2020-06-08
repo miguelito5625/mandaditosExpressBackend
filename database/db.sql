@@ -63,6 +63,13 @@ WHERE id_cliente = 1 AND id = 1;
 
 SELECT * FROM mandaditos.pedido;
 
+SELECT * FROM mandaditos.pedido
+WHERE DATE(onCreated) BETWEEN '2020-06-05' AND '2020-06-07';
+
+SELECT * FROM mandaditos.pedido
+WHERE DATE(onCreated) BETWEEN '2020-06-07' AND '2020-06-07' AND estado = 'pendiente';
+
+
 
 
 
