@@ -63,7 +63,7 @@ pedidosController.listarPedidosPorClienteYEstado = async (req, res) => {
                 values: [idCliente, estadoPedido]
             }
         );
-        console.log('Pedidos listados');
+        console.log(`Pedidos ${estadoPedido}s listados`);
 
         res.json(query[0][1]);
 
@@ -123,7 +123,7 @@ pedidosController.filtrarPedidosEntregadosPorRepartidorYFechas = async (req, res
                 sql: "SET @row_number = 0; " +
                     "SELECT (@row_number:=@row_number + 1) AS fila_numero, id_cliente, nombre_cliente, " +
                     "telefono_cliente, direccion_cliente, id_pedido, pedido, precio, estado_pedido, onCreated, onUpdated " +
-                    "FROM vista_pedidos where DATE(onCreated) BETWEEN ? AND ? AND estado_pedido = 'entregado' AND id_repartidor = ?;",
+                    "FROM vista_pedidos where DATE(onUpdated) BETWEEN ? AND ? AND estado_pedido = 'entregado' AND id_repartidor = ?;",
                 values: [fechaDesde, fechaHasta, idRepartidor]
             }
         );
